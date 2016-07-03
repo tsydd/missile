@@ -8,6 +8,11 @@ find_package(PkgConfig)
 
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 
+# Here's how I usually do it to save time:
+# file(GLOB_RECURSE SOURCE_FILES
+#      RELATIVE ${CMAKE_CURRENT_SOURCE_DIR},
+#      *.cpp
+#      *.h)
 set(SOURCE_FILES
         main.cpp
         usb_utils.h

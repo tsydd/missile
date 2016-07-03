@@ -8,8 +8,11 @@
 #include "MissileDevice.h"
 
 #include "usb_utils.h"
+// Use cstdtio and std::printf since we're in C++ land.
 #include <stdio.h>
 
+// Constant defines are evil.
+// Use static type_t const var = value;
 #define ID_VENDOR   0x0a81
 #define ID_PRODUCT  0x0701
 
@@ -28,10 +31,13 @@
 #define ML_CTRL_STOP_FIRE   0b01000000
 
 MissileDevice::MissileDevice() {
+    // No need to say "struct" in C++, it's inferred by default
+    // (unless you're deep inside some heavily templated code).
     struct usb_device *pDev = usb_find_device(ID_VENDOR, ID_PRODUCT);
     int interface = pDev->config->interface->altsetting->bInterfaceNumber;
     m_pDevHandle = usb_open(pDev);
     usb_claim(m_pDevHandle, interface);
+    // Error handling?
 }
 
 MissileDevice::~MissileDevice() {
@@ -39,6 +45,40 @@ MissileDevice::~MissileDevice() {
     usb_close(m_pDevHandle);
 }
 
+// Looks like a perfect use for some sort of
+// map<direction_t, cmd_t> mapping.
+// So you only have one action method that has the lookup table
+// and does error control, dispatch, etc.
+// E.g.:
+// enum struct direction // C++11 typed enum
+// {
+//    UP,
+//    DOWN,
+//    LEFT,
+//    RIGHT,
+// };
+//
+// enum struct device_command
+// {
+//    REQUEST_TYPE = 0x21,
+//    // ...
+// };
+//
+// void move(direction dir)
+// {
+//   // Can be a static array for quick lookup speed.
+//   static std::unordered_map<direction, device_cmd> commands = {
+//     {direction::UP, device_command::CTRL_UP},
+//     // ...
+//   };
+//
+//   auto iter = commands.find(dir);
+//   if (iter == commands.end()){
+//     // log(Unknown command)
+//   } else {
+//     sendCmd(iter->second);
+//   }
+// }
 void MissileDevice::moveDown()
 {
     sendCmd(ML_CTRL_DOWN);
@@ -72,16 +112,21 @@ void MissileDevice::stopFire() {
     sendCmd(ML_CTRL_STOP_FIRE);
 }
 
+// char is a poor type choice here as it usually implies ASCII, doesn't it?
+// I'd rather change to uint8_t - or, as pointed out above - to a typed enum.
 void MissileDevice::sendCmd(char cmd) {
     int ret = usb_control_msg(m_pDevHandle,
                               ML_CMD_REQUEST_TYPE,
                               ML_CMD_REQUEST,
                               ML_CMD_VALUE,
                               0,
+                              // Memory leak on each command?
+                              // this buffer has to be freed by someone.
                               new char[ML_CMD_SIZE]{cmd},
                               ML_CMD_SIZE,
                               ML_CMD_TIMEOUT);
     if (ret < 0) {
+        // Print the command and error code as well?
         printf("Failed to send command to missile\n");
     }
 }

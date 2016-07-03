@@ -7,6 +7,13 @@
 
 #include "MissileController.h"
 
+// Use initializer lists:
+// MissleController::MissleController(arg1, arg2)
+//    : member1(arg1)
+//    , member2(arg2)
+// {
+//   // Non-trival initialization code
+// }
 MissileController::MissileController(Glib::RefPtr<Gtk::Application> *app,
                                      MissileKeyboardHandler *handler,
                                      MissileDevice *device) {
@@ -14,6 +21,24 @@ MissileController::MissileController(Glib::RefPtr<Gtk::Application> *app,
     this->m_pKbHandler = handler;
     this->m_pDevice = device;
 
+    // I think it's better to add these in pairs so that each key's
+    // press/release events are clearly handled.
+    // Step 2 may be actually combining then in a single
+    // function with a boolean argument.
+    //
+    // If you change the handler API per my other comments,
+    // you can replace most of these with a lookup table & a single handler combo.
+    // static std::unordered_map<uint32_t, device_command> commands = {
+    //   GDK_KEY_w, device_command::move_left,
+    //   // ...
+    // };
+    // handler->set([&](uint32_t key_code) {
+    //   auto iter = commands.find(key_code);
+    //   if (iter != commands.end()) {
+    //     log(key_code);
+    //     m_pDevice->sendCommand(iter->second);
+    //   }
+    // });
     handler->addKeyPressedHandler(GDK_KEY_w, [&]() {
         printf("up\n");
         this->m_pDevice->moveUp();
@@ -57,6 +82,9 @@ MissileController::MissileController(Glib::RefPtr<Gtk::Application> *app,
     });
 }
 
+// No need to define empty destructor - the compiler can do it for you.
+// Or you could've provided it in the header file to make linker's
+// and optimizer's jobs easier.
 MissileController::~MissileController() {
 }
 
