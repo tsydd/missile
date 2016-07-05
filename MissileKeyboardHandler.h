@@ -5,13 +5,21 @@
  *      Author: Dmitry Tsydzik
  */
 
-#ifndef MISSILE_KEYBOARD_HANDLER_H_
-#define MISSILE_KEYBOARD_HANDLER_H_
+#pragma once
 
 #include <gtkmm.h>
 #include <map>
 
 class MissileKeyboardHandler {
+public:
+    MissileKeyboardHandler();
+
+    int run(Glib::RefPtr<Gtk::Application> app);
+
+    void addKeyPressedHandler(guint key, std::function<void()> handler);
+
+    void addKeyReleasedHandler(guint key, std::function<void()> handler);
+
 private:
     Gtk::Window window;
 
@@ -23,16 +31,4 @@ private:
     std::map<guint, std::function<void()>> m_keyReleasedHandlers;
     guint m_lastKey = 0;
     bool m_releaseHandled = true;
-public:
-    MissileKeyboardHandler();
-
-    virtual ~MissileKeyboardHandler();
-
-    int run(Glib::RefPtr<Gtk::Application> app);
-
-    void addKeyPressedHandler(guint key, std::function<void()> handler);
-
-    void addKeyReleasedHandler(guint key, std::function<void()> handler);
 };
-
-#endif /* MISSILE_KEYBOARD_HANDLER_H_ */

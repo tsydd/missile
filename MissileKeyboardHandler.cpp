@@ -12,9 +12,6 @@ MissileKeyboardHandler::MissileKeyboardHandler() {
     window.signal_key_release_event().connect(sigc::mem_fun(this, &MissileKeyboardHandler::onKeyReleased));
 }
 
-MissileKeyboardHandler::~MissileKeyboardHandler() {
-}
-
 int MissileKeyboardHandler::run(Glib::RefPtr<Gtk::Application> app) {
     return app->run(window);
 }

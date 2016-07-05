@@ -2,7 +2,7 @@
 // Created by tsyd on 24.6.16.
 //
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 
 #include "usb_utils.h"
@@ -12,9 +12,9 @@ struct usb_device *usb_find_device(uint16_t idVendor, uint16_t idProduct) {
     usb_find_busses();
     usb_find_devices();
 
-    for (struct usb_bus *bus = usb_get_busses(); bus; bus = bus->next) {
-        for (struct usb_device *dev = bus->devices; dev; dev = dev->next) {
-            struct usb_device_descriptor *dscr = &dev->descriptor;
+    for (auto bus = usb_get_busses(); bus; bus = bus->next) {
+        for (auto dev = bus->devices; dev; dev = dev->next) {
+            auto dscr = &dev->descriptor;
             if (idVendor == dscr->idVendor && idProduct == dscr->idProduct) {
                 printf("Device found\n");
                 return dev;

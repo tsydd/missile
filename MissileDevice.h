@@ -5,15 +5,14 @@
  *      Author: Dmitry Tsydzik
  */
 
-#ifndef MISSILE_DEVICE_H
-#define MISSILE_DEVICE_H
+#pragma once
 
 #include <usb.h>
 
 class MissileDevice {
 public:
     MissileDevice();
-    virtual ~MissileDevice();
+    ~MissileDevice();
 
     void moveDown();
     void moveUp();
@@ -32,6 +31,3 @@ private:
     usb_dev_handle *m_pDevHandle;
     int m_iface;
 };
-
-
-#endif //MISSILE_DEVICE_H

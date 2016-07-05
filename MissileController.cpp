@@ -9,10 +9,11 @@
 
 MissileController::MissileController(Glib::RefPtr<Gtk::Application> *app,
                                      MissileKeyboardHandler *handler,
-                                     MissileDevice *device) {
-    this->m_pApp = app;
-    this->m_pKbHandler = handler;
-    this->m_pDevice = device;
+                                     MissileDevice *device)
+        : m_pApp(app)
+        , m_pKbHandler(handler)
+        , m_pDevice(device)
+{
 
     handler->addKeyPressedHandler(GDK_KEY_w, [&]() {
         printf("up\n");
@@ -55,9 +56,6 @@ MissileController::MissileController(Glib::RefPtr<Gtk::Application> *app,
         printf("fire released\n");
         this->m_pDevice->stopFire();
     });
-}
-
-MissileController::~MissileController() {
 }
 
 int MissileController::run() {
