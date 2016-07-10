@@ -1,5 +1,5 @@
 //
-// Created by tsyd on 24.6.16.
+// Created by Dmitry Tsydzik on 24.6.16.
 //
 
 #include <cstdio>

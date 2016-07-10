@@ -18,6 +18,9 @@ set(SOURCE_FILES
         MissileKeyboardHandler.cpp
         MissileController.h
         MissileController.cpp
+        IMissileDevice.h
+        MockMissileDevice.cpp
+        MockMissileDevice.h
         )
 
 add_executable(missile ${SOURCE_FILES})

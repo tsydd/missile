@@ -13,14 +13,14 @@
 
 class MissileController {
 public:
-    MissileController(Glib::RefPtr<Gtk::Application> *app,
-                      MissileKeyboardHandler *handler,
-                      MissileDevice *device);
+    MissileController(Glib::RefPtr<Gtk::Application> app,
+                      MissileKeyboardHandler &handler,
+                      IMissileDevice &device);
 
     int run();
 
 private:
-    Glib::RefPtr<Gtk::Application> *m_pApp;
-    MissileKeyboardHandler *m_pKbHandler;
-    MissileDevice *m_pDevice;
+    Glib::RefPtr<Gtk::Application> m_app;
+    MissileKeyboardHandler &m_kbHandler;
+    IMissileDevice &m_device;
 };

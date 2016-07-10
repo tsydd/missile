@@ -1,12 +1,17 @@
 #include "MissileDevice.h"
+#include "MockMissileDevice.h"
 #include "MissileKeyboardHandler.h"
 #include "MissileController.h"
 
 int main(int argc, char **argv) {
-    MissileDevice *device = new MissileDevice();
-    Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv, "grk.example.gtkmm.base");
-    MissileKeyboardHandler *handler = new MissileKeyboardHandler();
-    MissileController *controller = new MissileController(&app, handler, device);
+    auto app = Gtk::Application::create(argc, argv, "by.tsyd.missile");
+    Gtk::Window window;
 
-    return controller->run();
+    MissileDevice device;
+//    MockMissileDevice device;
+
+    MissileKeyboardHandler handler(window);
+    MissileController controller(app, handler, *((IMissileDevice*) &device));
+
+    return controller.run();
 }

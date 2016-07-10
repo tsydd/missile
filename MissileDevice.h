@@ -7,27 +7,33 @@
 
 #pragma once
 
-#include <usb.h>
+#include "IMissileDevice.h"
 
-class MissileDevice {
+struct usb_dev_handle;
+
+class MissileDevice : IMissileDevice {
 public:
     MissileDevice();
+
     ~MissileDevice();
 
-    void moveDown();
-    void moveUp();
-    void moveLeft();
-    void moveRight();
+    void moveDown() override;
 
-    void stop();
+    void moveUp() override;
 
-    void fire();
+    void moveLeft() override;
 
-    void stopFire();
+    void moveRight() override;
 
-    void sendCmd(char cmd);
+    void stop() override;
+
+    void fire() override;
+
+    void stopFire() override;
 
 private:
+    void sendCmd(char cmd);
+
     usb_dev_handle *m_pDevHandle;
     int m_iface;
 };

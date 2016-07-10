@@ -12,7 +12,7 @@
 
 class MissileKeyboardHandler {
 public:
-    MissileKeyboardHandler();
+    MissileKeyboardHandler(Gtk::Window &window);
 
     int run(Glib::RefPtr<Gtk::Application> app);
 
@@ -21,7 +21,7 @@ public:
     void addKeyReleasedHandler(guint key, std::function<void()> handler);
 
 private:
-    Gtk::Window window;
+    Gtk::Window &m_window;
 
     bool onKeyPressed(GdkEventKey *key);
 

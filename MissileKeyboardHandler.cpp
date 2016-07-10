@@ -7,13 +7,13 @@
 
 #include "MissileKeyboardHandler.h"
 
-MissileKeyboardHandler::MissileKeyboardHandler() {
-    window.signal_key_press_event().connect(sigc::mem_fun(this, &MissileKeyboardHandler::onKeyPressed), false);
-    window.signal_key_release_event().connect(sigc::mem_fun(this, &MissileKeyboardHandler::onKeyReleased));
+MissileKeyboardHandler::MissileKeyboardHandler(Gtk::Window &window): m_window(window) {
+    m_window.signal_key_press_event().connect(sigc::mem_fun(this, &MissileKeyboardHandler::onKeyPressed), false);
+    m_window.signal_key_release_event().connect(sigc::mem_fun(this, &MissileKeyboardHandler::onKeyReleased));
 }
 
 int MissileKeyboardHandler::run(Glib::RefPtr<Gtk::Application> app) {
-    return app->run(window);
+    return app->run(m_window);
 }
 
 bool MissileKeyboardHandler::onKeyPressed(GdkEventKey *key) {

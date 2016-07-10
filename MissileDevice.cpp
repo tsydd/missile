@@ -9,6 +9,7 @@
 
 #include "usb_utils.h"
 #include <cstdio>
+#include <bits/unique_ptr.h>
 
 static const uint16_t ID_VENDOR = 0x0a81;
 static const uint16_t ID_PRODUCT = 0x0701;
@@ -68,12 +69,13 @@ void MissileDevice::stopFire() {
 }
 
 void MissileDevice::sendCmd(char cmd) {
+    std::unique_ptr<char[]> wrappedCmd(new char[ML_CMD_SIZE]{cmd});
     int ret = usb_control_msg(m_pDevHandle,
                               ML_CMD_REQUEST_TYPE,
                               ML_CMD_REQUEST,
                               ML_CMD_VALUE,
                               0,
-                              new char[ML_CMD_SIZE]{cmd},
+                              wrappedCmd.get(),
                               ML_CMD_SIZE,
                               ML_CMD_TIMEOUT);
     if (ret < 0) {
