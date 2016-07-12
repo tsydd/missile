@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 //    MockMissileDevice device;
 
     MissileKeyboardHandler handler(window);
-    MissileController controller(app, handler, *((IMissileDevice*) &device));
+    MissileController controller(app, handler, device);
 
     return controller.run();
 }

@@ -6,7 +6,7 @@
 
 #include "IMissileDevice.h"
 
-class MockMissileDevice : IMissileDevice {
+class MockMissileDevice : public IMissileDevice {
     void moveDown() override;
 
     void moveUp() override;

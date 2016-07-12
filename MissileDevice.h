@@ -11,7 +11,7 @@
 
 struct usb_dev_handle;
 
-class MissileDevice : IMissileDevice {
+class MissileDevice : public IMissileDevice {
 public:
     MissileDevice();
 
