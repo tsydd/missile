@@ -16,9 +16,9 @@ public:
 
     int run(Glib::RefPtr<Gtk::Application> app);
 
-    void addKeyPressedHandler(guint key, std::function<void()> handler);
+    void addKeyPressedHandler(guint key, std::function<void()> &&handler);
 
-    void addKeyReleasedHandler(guint key, std::function<void()> handler);
+    void addKeyReleasedHandler(guint key, std::function<void()> &&handler);
 
 private:
     Gtk::Window &m_window;
