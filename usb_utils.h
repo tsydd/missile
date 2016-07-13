@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <usb.h>
+struct usb_dev_handle;
 
-struct usb_device *usb_find_device(uint16_t idVendor, uint16_t idProduct);
+struct usb_device *usb_find_device(unsigned short idVendor, unsigned short idProduct);
 
 void usb_claim(usb_dev_handle *handle, int iface);

@@ -9,6 +9,7 @@
 
 #include "usb_utils.h"
 #include <cstdio>
+#include <usb.h>
 #include <bits/unique_ptr.h>
 
 static const uint16_t ID_VENDOR = 0x0a81;

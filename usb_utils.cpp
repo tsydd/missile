@@ -3,6 +3,7 @@
 //
 
 #include <cstdio>
+#include <usb.h>
 #include <stdexcept>
 
 #include "usb_utils.h"
@@ -12,9 +13,9 @@ struct usb_device *usb_find_device(uint16_t idVendor, uint16_t idProduct) {
     usb_find_busses();
     usb_find_devices();
 
-    for (auto bus = usb_get_busses(); bus; bus = bus->next) {
-        for (auto dev = bus->devices; dev; dev = dev->next) {
-            auto dscr = &dev->descriptor;
+    for (auto *bus = usb_get_busses(); bus; bus = bus->next) {
+        for (auto *dev = bus->devices; dev; dev = dev->next) {
+            auto *dscr = &dev->descriptor;
             if (idVendor == dscr->idVendor && idProduct == dscr->idProduct) {
                 printf("Device found\n");
                 return dev;
@@ -36,7 +37,7 @@ void usb_claim(usb_dev_handle *handle, int iface) {
         else {
             throw std::runtime_error("Failed to detach");
         }
-    } else{
+    } else {
         printf("Warning: device detach step is skipped\n");
     }
 
